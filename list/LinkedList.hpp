@@ -44,4 +44,48 @@ public:
 
         return value;
     }
+
+    /**
+     * Итерация по связанному списку
+     **/
+    Node<K, T>* iterator(K key)
+    {
+        Node<K, T>* current = this->root;
+
+        for(int i = 0; i < this->size; i++)
+        {
+            if(current->key == key) return current;
+        }
+
+        return nullptr;
+    }
+
+    /**
+     * Получение элемента по ключу
+     **/
+    T& operator[](K key)
+    {
+        Node<K, T>* node = this->iterator(key);
+
+        if(node) return node->value;
+    }
+
+    /**
+     * Удаление узла с определенным ключом
+     **/
+    void remove(K key)
+    {
+        Node<K, T>* node = this->iterator(key);
+
+        if(node->prev) node->prev->next = node->next;
+        if(node->next) node->next->prev = node->prev;
+
+        delete node;
+        this->size--;
+    }
+
+    size_t getSize()
+    {
+        return this->size;
+    }
 };
