@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cstddef>
 
 #include "Node.hpp"
@@ -18,6 +19,14 @@ public:
     LinkedList() :
     root(nullptr), size(0)
     {}
+
+    ~LinkedList()
+    {
+        while (this->size)
+        {
+            pop();
+        }
+    }
 
     /**
      * Добавление элемента в начало связанного списка
@@ -52,9 +61,10 @@ public:
     {
         Node<K, T>* current = this->root;
 
-        for(int i = 0; i < this->size; i++)
+        for(int i = 0; i < this->getSize(); i++)
         {
             if(current->key == key) return current;
+            current = current->next;
         }
 
         return nullptr;
@@ -63,11 +73,12 @@ public:
     /**
      * Получение элемента по ключу
      **/
-    T& operator[](K key)
+    T operator[](K key)
     {
         Node<K, T>* node = this->iterator(key);
 
         if(node) return node->value;
+        return T();
     }
 
     /**
